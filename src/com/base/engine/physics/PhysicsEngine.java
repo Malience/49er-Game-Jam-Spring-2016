@@ -163,37 +163,6 @@ public class PhysicsEngine extends Thread {
 		forces.put(forceName, force);
 	}
 
-	public static void removeForce(RigidBody body, String forceName) {
-		ForceGenerator force = forces.get(forceName);
-		if (force != null)
-			registry.remove(body, force);
-	}
-
-	public static void removeForce(RigidBody body, ForceGenerator force) {
-		String forceName = getForce(force);
-		force = forces.get(forceName);
-		if (force != null)
-			registry.remove(body, force);
-	}
-	
-	public static ForceGenerator getForce(String forceName) {
-		return forces.get(forceName);
-	}
-	
-	public static String getForce(ForceGenerator force) {
-		String forceName = force.getClass().getSimpleName();
-		ForceGenerator test = forces.get(forceName);
-		int i = -1;
-		while (test != force) {
-			test = forces.get(forceName + ++i);
-		}
-		return forceName + i;
-	}
-
-	public static void removeForce(ForceGenerator force, String forceName) {
-		forces.remove(forceName, force);
-	}
-
 	public static void printInfo(RigidBody body) {
 		System.out.println(body.toString() + ": A" + body.getAcceleration() + ": V" + body.getVelocity() + ": R"
 				+ body.getRotation());

@@ -23,21 +23,10 @@ public class PlanetLook extends BoundedLook implements Controlable {
 
 	@Override
 	public int input(float delta) {
-		if(planet != null)
-		{
-			Matrix4f mat = new Matrix4f();
-			mat.initRotation(this.getTransform().getRot().getForward(), this.getTransform().getPos().sub(planet.object.getPosition()).normal());
-			this.getTransform().setRot(new Quaternion(mat));
-			yAxis = this.getTransform().getRot().getUp().normal();
-		}
-		else
-		{
-			Matrix4f mat = new Matrix4f();
-			mat.initRotation(this.getTransform().getRot().getForward(), new Vector3f(0,1,0));
-			this.getTransform().setRot(new Quaternion(mat));
-			yAxis = new Vector3f(0,1,0);
-		}
-		
+		Matrix4f mat = new Matrix4f();
+		mat.initRotation(this.getTransform().getRot().getForward(), this.getTransform().getPos().sub(planet.object.getPosition()).normal());
+		this.getTransform().setRot(new Quaternion(mat));
+		yAxis = this.getTransform().getRot().getUp().normal();
 		if (Input.isMouseLocked()) {
 			Vector2f deltaPos = Input.getCurrentMousePosition().sub(Input.getCenter());
 
@@ -64,11 +53,6 @@ public class PlanetLook extends BoundedLook implements Controlable {
 		}
 
 		return 1;
-	}
-	
-	public ConnectedPlanet getPlanet()
-	{
-		return this.planet;
 	}
 	
 	public void setPlanet(ConnectedPlanet planet)
