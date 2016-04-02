@@ -53,26 +53,22 @@ public class Graph <T>
 	}
 	
     private Map<T, List<Edge<T>>> map;
-    private Map<T , Integer> inDegrees;
     
     
     public Graph()
     {
         this.map = new HashMap<>();
-        this.inDegrees = new HashMap<>();
     }
 
     public Graph(Graph<T> g)
     {
         this.map = g.map;
-        this.inDegrees = g.inDegrees;
     }
     
     public boolean add(T node)
     {
     	if(contains(node)) { return false; }
     	
-    	inDegrees.put(node, 0);
     	map.put(node, new ArrayList<Edge<T>>());
     	return true;
     }
@@ -81,10 +77,11 @@ public class Graph <T>
     {
         this.add(from);
         this.add(to);
-
-        inDegrees.put(to, inDegrees.get(to) + 1);
+        
         map.get(from).add(new Edge<T>(to, weight));
+        map.get(to).add(new Edge<T>(from, weight));
     }
+    
     
     public boolean contains(T node)
     {
