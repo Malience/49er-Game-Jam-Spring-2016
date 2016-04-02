@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.base.engine.components.attachments.BroadCollidable;
 import com.base.engine.components.attachments.Collidable;
 import com.base.engine.components.attachments.Physical;
+import com.base.engine.core.CoreEngine;
 import com.base.engine.core.World;
 import com.base.engine.core.math.Vector3f;
 import com.base.engine.physics.RigidBody.RigidBody;
@@ -61,6 +62,7 @@ public class PhysicsEngine extends Thread {
 	}
 
 	public void gather() {
+		CoreEngine.debugBreak();
 		physicalComponents = world.getPhysical();
 		collidableComponents = world.getCollidable();
 		broadphase = world.getBroadCollidables();

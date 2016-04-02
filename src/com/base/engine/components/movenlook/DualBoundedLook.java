@@ -7,7 +7,7 @@ import com.base.engine.core.math.Vector2f;
 import com.base.engine.core.math.Vector3f;
 
 public class DualBoundedLook extends BoundedLook implements Controlable {
-	private static final Vector3f yAxis = new Vector3f(0, 1, 0);
+	private static Vector3f yAxis = new Vector3f(0, 1, 0);
 	GameObject yobject;
 	GameObject xobject;
 
@@ -49,5 +49,9 @@ public class DualBoundedLook extends BoundedLook implements Controlable {
 
 		return 1;
 	}
-
+	
+	public static void setyAxis(Vector3f yaxis)
+	{
+		yAxis = yaxis;
+	}
 }

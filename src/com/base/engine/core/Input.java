@@ -1,4 +1,4 @@
-package com.base.engine.core;
+  package com.base.engine.core;
 
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_DISABLED;

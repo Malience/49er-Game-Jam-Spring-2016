@@ -10,6 +10,7 @@ import com.base.engine.components.attachments.UIRenderable;
 import com.base.engine.components.attachments.Updatable;
 import com.base.engine.components.movenlook.Camera;
 import com.base.engine.components.movenlook.DualBoundedLook;
+import com.base.engine.components.movenlook.PlanetLook;
 import com.base.engine.components.movenlook.JumpMove;
 import com.base.engine.components.movenlook.LockedYMove;
 import com.base.engine.components.movenlook.MoveComponent;
@@ -19,6 +20,7 @@ import com.base.engine.core.math.Vector2f;
 import com.base.engine.core.math.Vector3f;
 import com.base.engine.physics.PhysicsEngine;
 import com.base.engine.physics.RigidBody.RigidBody;
+import com.base.engine.physics.RigidBody.ForceGenerators.ConnectedPlanet;
 import com.base.engine.physics.collision.Primitive;
 import com.base.engine.physics.collision.Sphere;
 import com.base.engine.rendering.RenderingEngine;
@@ -37,28 +39,25 @@ public class Player extends GameObject {
 	boolean alive = true;
 	Camera camera;
 	RigidBody body;
-	Primitive collider1;
-	Primitive collider2;
-	MoveComponent finalmove;
+	Primitive collider;
 	public UIInventory inventory;
 	Vitals vitals;
 	OxygenTank tank = null;
+	PlanetLook look;
 
 	public Player() {
 		camera = new Camera((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(),
 				0.01f, 1000.0f);
 		body = new RigidBody(20, .2f, 0);
-		collider1 = new Sphere(1);
-		collider2 = new Sphere(1);
+		collider = new Sphere(4);
 		// collider1 = new Box(new Vector3f(1,2,1));
 		// collider = new Capsule(1,2);
 		// FreeMove move = new FreeMove(25);
 		LockedYMove move = new LockedYMove(20);
-		finalmove = new MoveComponent(1, 5);
 		// FreeLook look = new FreeLook(0.5f);
 		// StandardLook look = new StandardLook(0.5f);
 		// InteractionTest test = new InteractionTest();
-		JumpMove jump = new JumpMove(10, body);
+		JumpMove jump = new JumpMove(40, body);
 		inventory = new UIInventory(this);
 		UIInventoryItem item = new UIInventoryItemRect("bricks.png", new Vector2f(30, 30));
 		inventory.add(item);
@@ -73,15 +72,14 @@ public class Player extends GameObject {
 		RenderingEngine.addUI(vitals);
 
 		body.attach(this);
-		collider1.attach(body);
-		collider2.attach(body);
+		collider.attach(body);
 
 		RenderingEngine.mainCamera = camera;
 		World.world.focus = this;
 
 		this.addComponent(camera);
 		this.addComponent(body);
-		// this.addComponent(collider1);
+		this.addComponent(collider);
 		// this.addComponent(collider2);
 		this.addComponent(move);
 		// this.addComponent(look);
@@ -89,31 +87,15 @@ public class Player extends GameObject {
 		this.addComponent(jump);
 		this.addComponent(atmos);
 
-		PhysicsEngine.addForce(body, "Gravity");
+		//PhysicsEngine.addForce(body, "Gravity");
+		PhysicsEngine.addForce(body, "planet1");
 
-		GameObject cameraObject = new GameObject();
-		cameraObject.addComponent(camera);
 
-		DualBoundedLook look = new DualBoundedLook(0.5f, this, cameraObject);
+		look = new PlanetLook(0.5f, null);
 
-		cameraObject.addComponent(look);
+		this.addComponent(look);
 
-		this.addChild(cameraObject);
-
-		GameObject c1 = new GameObject();
-		GameObject c2 = new GameObject();
-
-		c1.addComponent(collider1);
-		c2.addComponent(collider2);
-
-		c1.getTransform().setPos(new Vector3f(0, 1, 0));
-		c2.getTransform().setPos(new Vector3f(0, -1, 0));
-
-		this.addChild(c1);
-		this.addChild(c2);
-
-		collider1.calculateInternals();
-		collider2.calculateInternals();
+		
 		inventory.setAction("Inventory", GLFW_KEY_I);
 		RenderingEngine.ui.addChild(inventory);
 		World.menu.addMenu(inventory);
@@ -261,7 +243,12 @@ public class Player extends GameObject {
 		}
 
 	}
-
+	
+	public void setPlanet(ConnectedPlanet planet)
+	{
+		this.look.setPlanet(planet);
+	}
+	
 	public boolean checkPulse() {
 		return alive;
 	}
@@ -273,9 +260,5 @@ public class Player extends GameObject {
 
 	public Camera getCamera() {
 		return camera;
-	}
-
-	public void win() {
-		this.addComponent(finalmove);
 	}
 }

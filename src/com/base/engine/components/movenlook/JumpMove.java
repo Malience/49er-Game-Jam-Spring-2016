@@ -9,10 +9,10 @@ import com.base.engine.core.math.Vector3f;
 import com.base.engine.physics.RigidBody.RigidBody;
 
 public class JumpMove extends GameComponent implements Controlable {
-	private Vector3f force;
+	private float force;
 	private RigidBody body;
 	private int jumpKey;
-	private static final float jumpEpsilon = .0000001f;
+	private static final float jumpEpsilon = .01f;
 
 	public JumpMove(float speed, RigidBody body) {
 		this(speed, body, GLFW_KEY_SPACE);
@@ -20,21 +20,21 @@ public class JumpMove extends GameComponent implements Controlable {
 
 	public JumpMove(float speed, RigidBody body, int jumpKey) {
 		this.jumpKey = jumpKey;
-		force = new Vector3f(0, 1, 0).mul(speed);
+		force = speed;
 		this.body = body;
 	}
 
 	@Override
 	public int input(float delta) {
 		if (Input.getKeyPressed(jumpKey)) {
-			Vector3f velocity = new Vector3f(0, 1, 0).mul(body.getVelocity());
+			Vector3f velocity = this.getTransform().getRot().getUp().mul(body.getVelocity());
 			float currentMotion = velocity.dot(velocity);
 
 			float bias = (float) Math.pow(0.5f, delta);
 
 			float motion = Math.abs((1 - bias) * currentMotion);
 			if (motion < jumpEpsilon)
-				body.addVelocity(force);
+				body.addVelocity(this.getTransform().getRot().getUp().mul(force));
 		}
 		return 1;
 	}

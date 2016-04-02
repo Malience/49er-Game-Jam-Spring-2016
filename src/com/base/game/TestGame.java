@@ -4,6 +4,7 @@ import com.base.engine.components.MeshRenderer;
 import com.base.engine.components.movenlook.FreeLook;
 import com.base.engine.components.movenlook.FreeMove;
 import com.base.engine.components.movenlook.LookAtComponent;
+import com.base.engine.components.movenlook.PlanetWalking;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.World;
@@ -22,6 +23,7 @@ import com.base.game.LevelGeneration.Level;
 import com.base.game.LevelGeneration.Ship;
 
 import game.Player;
+import game.TestPlanet;
 
 public class TestGame extends Game {
 	public void init() {
@@ -159,13 +161,7 @@ public class TestGame extends Game {
 		// PhysicsEngine.addForce(box3.getRigidBody(), "Gravity");
 		// PhysicsEngine.addForce(box4.getRigidBody(), "Gravity");
 
-		Player player = new Player();
-		// player.getTransform().setPos(new Vector3f(mainRoomTopCenterPos.x,
-		// Room.roomSize.y * 2.0f, mainRoomTopCenterPos.z));
-
-		// player.getTransform().setPos(new Vector3f(mainRoomTopCenterPos.x,
-		// Room.roomSize.y * 1.5f, mainRoomTopCenterPos.z));
-		world.addToBucket(player);
+		
 
 		// world.add(new Wall(new Vector3f(10,2.5f,10)));
 		// world.add(new Floor(new Vector3f(5,.5f,10)));
@@ -176,16 +172,30 @@ public class TestGame extends Game {
 		// it.getTransform().setPos(new Vector3f(1.4f,0,4));
 		// world.add(it);
 
-		Level level = new Level(20, 20);
-		level.initRooms(4, 3, 3, 2); // Integer values 0-7 : 0-3 : 0-3 : 0+
-		System.out.println(level.toString());
-
-		Ship ship = level.constructShip(new Vector3f(0, 0, 0));
-		ship.generateRooms();
-		world.add(ship);
-
-		PoweredConsole pc = new LightingConsole(new RoomPowerUnit(1000, 1000));
-		pc.getTransform().setPos(new Vector3f(1.4f, 0, 4));
-		world.add(pc);
+//		Level level = new Level(20, 20);
+//		level.initRooms(4, 3, 3, 2); // Integer values 0-7 : 0-3 : 0-3 : 0+
+//		System.out.println(level.toString());
+//
+//		Ship ship = level.constructShip(new Vector3f(0, 0, 0));
+//		ship.generateRooms();
+//		world.add(ship);
+//
+//		PoweredConsole pc = new LightingConsole(new RoomPowerUnit(1000, 1000));
+//		pc.getTransform().setPos(new Vector3f(1.4f, 0, 4));
+//		world.add(pc);
+		
+		TestPlanet planet1 = new TestPlanet(1000, 40);
+		planet1.getTransform().setPos(new Vector3f(40,40,40));
+		System.out.println(planet1.getTransform().hasChanged());
+		world.add(planet1);
+		
+		Player player = new Player();
+		player.setPlanet(planet1.planet);
+		// player.getTransform().setPos(new Vector3f(mainRoomTopCenterPos.x,
+		// Room.roomSize.y * 2.0f, mainRoomTopCenterPos.z));
+		//player.addComponent(new PlanetWalking(player, planet1.planet));
+		// player.getTransform().setPos(new Vector3f(mainRoomTopCenterPos.x,
+		// Room.roomSize.y * 1.5f, mainRoomTopCenterPos.z));
+		world.addToBucket(player);
 	}
 }

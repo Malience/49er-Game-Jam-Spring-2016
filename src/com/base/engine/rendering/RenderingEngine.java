@@ -283,7 +283,7 @@ public class RenderingEngine extends MappedValues {
 	}
 
 	public void renderAllUI() {
-		CoreEngine.debugBreak();
+		//CoreEngine.debugBreak();
 		for (UIRenderable render : uiRenders) {
 			if (render.isActive())
 				render.render(this);

@@ -94,7 +94,7 @@ public class CoreEngine {
 		physicsEngine = new PhysicsEngine();
 		animationEngine = new AnimationEngine();
 		atmosphericsEngine = new AtmosphericsEngine();
-		audioEngine = new AudioEngine();
+		//audioEngine = new AudioEngine();
 		world.init();
 
 		Input.lockMouse();
@@ -117,7 +117,7 @@ public class CoreEngine {
 
 			world.remove();
 			world.refreshActives();
-			world.updateObjects();
+			//world.updateObjects();
 			physicsEngine.startFrame();
 			// Gather Resources
 			Input.gather();
@@ -125,7 +125,7 @@ public class CoreEngine {
 			physicsEngine.gather();
 			animationEngine.gather();
 			atmosphericsEngine.gather();
-			audioEngine.gather();
+			//audioEngine.gather();
 			world.gather();
 
 			while (unprocessedTime > frameTime) {
@@ -143,7 +143,6 @@ public class CoreEngine {
 				Input.drag((float) frameTime);
 				Interaction.gather();
 				Interaction.interact();
-				world.update((float) frameTime);
 
 				if (frameCounter >= 1.0) {
 					System.out.println(frames);
@@ -167,8 +166,10 @@ public class CoreEngine {
 				// Rendering
 				renderingEngine.render();
 				// Audio
-				audioEngine.play();
+				//audioEngine.play();
 				Window.render(MainWindow);
+				
+				world.update((float) frameTime);
 				frames++;
 				// System.out.println(Input.getMousePosition());
 			} else {
@@ -186,7 +187,7 @@ public class CoreEngine {
 
 	private void cleanUp() {
 		dispose(MainWindow);
-		audioEngine.cleanUp();
+		//audioEngine.cleanUp();
 	}
 
 	public RenderingEngine getRenderingEngine() {
