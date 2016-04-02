@@ -8,6 +8,7 @@ public class IslandGeneration
 {
 	private class Island
 	{
+		public int depth;
 		public Island parent;
 		public int quadrant;
 		public Vector3f location;
@@ -15,12 +16,14 @@ public class IslandGeneration
 		public Island(Vector3f vec)
 		{
 			this.location = vec;
+			this.depth = 0;
 		}
 		
 		public Island(Island parent, Vector3f vec)
 		{
 			this.parent = parent;
 			this.location = parent == null ? vec : parent.location.add(vec);
+			this.depth = parent.depth + 1;
 			
 			if(parent != null)
 			{
@@ -54,22 +57,20 @@ public class IslandGeneration
 		}
 	}
 	
-	private Island[] islands;
 	private Random rand;
 	private Graph<Island> graph;
+	private final float discountFactor = .5f;
 	
 	
 	public IslandGeneration(int size, int maxDepth, float minBridgeLength, float maxBridgeLength)
 	{
-		//long seed;
-		long seed = new Random().nextLong();
-		rand = new Random(seed);
-		
-		islands = new Island[size];
-		
+		long seed = 1337;
+		//long seed = new Random().nextLong();
+		rand = new Random(seed);		
 		
 		graph = new Graph<>();
 		
+		Island main = null;
 		Island prev = null;
 		
 		for(int i = 0; i < size; i++)
@@ -81,20 +82,42 @@ public class IslandGeneration
 				island = new Island(new Vector3f(0, 0, 0));
 				graph.add(island);
 				
+				main = island;
+				
 			}
 			else
 			{
-				int quadrant = getNewQuadrant(prev);
-				island = new Island(prev, getNewVector(quadrant));
-				graph.addEdge(prev, island, 0.0f);
-			}		
-			
+				
+				if(getChance(prev))
+				{	
+					int quadrant = getNewQuadrant(prev);
+					
+					island = new Island(prev, getNewVector(quadrant));
+					
+					graph.addEdge(island.parent, island, 0.0f);
+				}
+				else
+				{
+					int quadrant = getNewQuadrant(main);
+					
+					island = new Island(main, getNewVector(quadrant));
+										
+					graph.addEdge(island.parent, island, 0.0f);
+					
+				}
+			}
 			
 			prev = island;
 			
 		}
 		
 		
+	}
+	
+	public boolean getChance(Island parent)
+	{
+		float prob = (float)Math.pow(discountFactor, parent.depth);		
+		return parent.depth == 0 ? true : prob >= rand.nextFloat();
 	}
 	
 	public int getNewQuadrant(Island parent)
