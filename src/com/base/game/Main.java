@@ -13,7 +13,7 @@ public class Main {
 		// sound.play();
 		//
 
-		CoreEngine engine = new CoreEngine(800, 600, "Monkey in the Middle", 60);
+		CoreEngine engine = new CoreEngine(800, 600, "49er-Game-Jam-Spring-2016", 60);
 		// CoreEngine engine = new CoreEngine(MainGame.SCREEN_WIDTH,
 		// MainGame.SCREEN_HEIGHT, MainGame.NAME, 60, new MainGame());
 		// engine.createWindow("3D Game Engine");
