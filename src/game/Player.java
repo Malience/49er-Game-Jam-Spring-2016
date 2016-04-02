@@ -88,7 +88,7 @@ public class Player extends GameObject {
 		this.addComponent(atmos);
 
 		//PhysicsEngine.addForce(body, "Gravity");
-		PhysicsEngine.addForce(body, "planet1");
+		//PhysicsEngine.addForce(body, "planet1");
 
 
 		look = new PlanetLook(0.5f, null);
@@ -246,7 +246,9 @@ public class Player extends GameObject {
 	
 	public void setPlanet(ConnectedPlanet planet)
 	{
+		if(this.look.getPlanet() != null) PhysicsEngine.removeForce(body, this.look.getPlanet());
 		this.look.setPlanet(planet);
+		PhysicsEngine.addForce(body, planet);
 	}
 	
 	public boolean checkPulse() {
