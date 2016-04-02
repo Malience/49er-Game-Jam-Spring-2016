@@ -19,6 +19,8 @@ import com.base.engine.rendering.Material;
 import com.base.engine.rendering.Mesh;
 import com.base.engine.rendering.Texture;
 import com.base.engine.rendering.Vertex;
+import com.base.game.LevelGeneration.Graph;
+import com.base.game.LevelGeneration.IslandGeneration;
 import com.base.game.LevelGeneration.Level;
 import com.base.game.LevelGeneration.Ship;
 
@@ -197,5 +199,10 @@ public class TestGame extends Game {
 		// player.getTransform().setPos(new Vector3f(mainRoomTopCenterPos.x,
 		// Room.roomSize.y * 1.5f, mainRoomTopCenterPos.z));
 		world.addToBucket(player);
+		
+		System.out.println("GRAPH\n");
+		IslandGeneration islandGen = new IslandGeneration(9, 3, 0.0f, 4.0f);
+		Graph g = islandGen.getGraph();
+		System.out.println(g.toString());
 	}
 }
