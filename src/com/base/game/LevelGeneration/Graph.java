@@ -11,11 +11,10 @@ public class Graph <T>
 {
 	private class Edge <T>
 	{
-		private T node;
+        private T node;
+	    private float weight;
 
-	    private int weight;
-
-	    public Edge(T node, int weight)
+	    public Edge(T node, float weight)
 	    {
 	        this.node = node;
 	        this.weight = weight;
@@ -25,8 +24,8 @@ public class Graph <T>
 	    {
 	        return node;
 	    }
-
-	    public int weight()
+	    
+	    public float weight()
 	    {
 	        return weight;
 	    }
@@ -53,7 +52,7 @@ public class Graph <T>
 	    }
 	}
 	
-	private Map<T, List<Edge<T>>> map;
+    private Map<T, List<Edge<T>>> map;
     private Map<T , Integer> inDegrees;
     
     
@@ -78,7 +77,7 @@ public class Graph <T>
     	return true;
     }
     
-    public void addEdge(T from, T to, int weight)
+    public void addEdge(T from, T to, float weight)
     {
         this.add(from);
         this.add(to);
