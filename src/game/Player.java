@@ -14,6 +14,7 @@ import com.base.engine.components.movenlook.PlanetLook;
 import com.base.engine.components.movenlook.JumpMove;
 import com.base.engine.components.movenlook.LockedYMove;
 import com.base.engine.components.movenlook.MoveComponent;
+import com.base.engine.components.movenlook.PlanetJump;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.World;
 import com.base.engine.core.math.Vector2f;
@@ -44,6 +45,7 @@ public class Player extends GameObject {
 	Vitals vitals;
 	OxygenTank tank = null;
 	PlanetLook look;
+	PlanetJump jump;
 
 	public Player() {
 		camera = new Camera((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(),
@@ -57,7 +59,7 @@ public class Player extends GameObject {
 		// FreeLook look = new FreeLook(0.5f);
 		// StandardLook look = new StandardLook(0.5f);
 		// InteractionTest test = new InteractionTest();
-		JumpMove jump = new JumpMove(40, body);
+		jump = new PlanetJump(40, body);
 		inventory = new UIInventory(this);
 		UIInventoryItem item = new UIInventoryItemRect("bricks.png", new Vector2f(30, 30));
 		inventory.add(item);
@@ -248,6 +250,7 @@ public class Player extends GameObject {
 	{
 		if(this.look.getPlanet() != null) PhysicsEngine.removeForce(body, this.look.getPlanet());
 		this.look.setPlanet(planet);
+		this.jump.setPlanet(planet);
 		PhysicsEngine.addForce(body, planet);
 	}
 	
