@@ -129,7 +129,7 @@ public class TestGame extends Game {
 		// BoxObject box2 = new BoxObject(45, .5f, .3f);
 		// BoxObject box3 = new BoxObject(45, .5f, .3f);
 		// BoxObject box4 = new BoxObject(45, .5f, .3f);
-		PlaneObject plane = new PlaneObject(new Vector3f(0, 1, 0), 0);
+		//PlaneObject plane = new PlaneObject(new Vector3f(0, 1, 0), 0);
 		// SphereObject sphere = new SphereObject(10, .5f, .5f, 1);
 		// SphereObject sphere2 = new SphereObject(10, .5f, .5f, 1);
 		// BallWaterfall waterfall = new BallWaterfall(20, 1, 1, 1, .2f);
@@ -138,7 +138,7 @@ public class TestGame extends Game {
 		// box2.getTransform().setPos(new Vector3f(-25,20,0));
 		// box3.getTransform().setPos(new Vector3f(-25,20,20));
 		// box4.getTransform().setPos(new Vector3f(-25,23,-4));
-		plane.getTransform().setPos(new Vector3f(-25, 20, 0));
+		//plane.getTransform().setPos(new Vector3f(-25, 20, 0));
 		// sphere.getTransform().setPos(new Vector3f(-25, 10, 1));
 		// sphere2.getTransform().setPos(new Vector3f(-25, 10, 0));
 		// waterfall.getTransform().setPos(new Vector3f(-25, 20, 0));
@@ -151,7 +151,7 @@ public class TestGame extends Game {
 		// world.add(box2);
 		// world.add(box3);
 		// world.add(box4);
-		world.add(plane);
+		//world.add(plane);
 		// world.add(sphere);
 		// world.add(sphere2);
 		// //world.add(waterfall);
