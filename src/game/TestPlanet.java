@@ -30,4 +30,9 @@ public class TestPlanet extends GameObject
 		
 		PhysicsEngine.addForce(planet, "planet1");
 	}
+	
+	public void setTexture(Texture texture)
+	{
+		sphere.setTexture(texture);
+	}
 }
