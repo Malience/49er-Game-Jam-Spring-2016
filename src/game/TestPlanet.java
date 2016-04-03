@@ -28,7 +28,7 @@ public class TestPlanet extends GameObject
 		//object.getTransform().setScale(radius);
 		//this.addChild(object);
 		
-		PhysicsEngine.addForce(planet, "planet1");
+		PhysicsEngine.addForce(planet);
 	}
 	
 	public void setTexture(Texture texture)

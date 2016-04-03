@@ -222,14 +222,10 @@ public class TestGame extends Game {
 		List<Vector3f> islands = islandGen.getVectors();
 		List<TestPlanet> planets = new ArrayList<>();
 		
-		player.getTransform().setPos(new Vector3f(100,100,100));
-		
 		for(Vector3f vec : islands)
 		{
-			
-			TestPlanet planet = new TestPlanet(50, 30);
-			planet.getTransform().setPos(vec);
-			
+			TestPlanet planet = new TestPlanet(1000, 30);
+			planet.getTransform().setPos(vec);	
 			
 			if(vec.equals(new Vector3f(0, 0, 0)))
 			{
@@ -241,21 +237,32 @@ public class TestGame extends Game {
 			planets.add(planet);
 		}
     	
-		Iterator it = g.getNodes().iterator();
+		Iterator<Island> it = g.getNodes().iterator();
 		
     	while(it.hasNext())
     	{
     		Island hold =(Island) it.next();
-    		
     		List<Island> list = g.getEdges(hold);
     		
     		for(Island is : list)
-    		{
-    			System.out.print("\n**" + hold + " -> " + is.location);
-    			System.out.print("\nNormal: " + hold.location.sub(is.location).normal());
+    		{	
+    			for(TestPlanet planet : planets)
+    			{
+    				if(planet.getPosition().equals(is.location))
+    				{
+    					Vector3f jPos = hold.location.sub(is.location).normal().mul(30).add(is.location);
+    					
+    					if(is.location.equals(new Vector3f(0,0,0)))
+    					{
+    						player.getTransform().setPos(jPos);
+    					}
+    					
+    					JumpPad paddy = new JumpPad(planet);
+    					paddy.getTransform().setPos(jPos);
+    					world.add(paddy);
+    				}
+    			}
     		}
     	}
-		
-		world.addToBucket(player);
 	}
 }

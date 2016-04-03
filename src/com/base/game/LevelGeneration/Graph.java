@@ -8,42 +8,8 @@ import java.util.Map;
 
 import com.base.engine.core.math.Vector3f;
 
-
-
 public class Graph <Island>
 {
-	private class Edge <Island>
-	{
-        private Island node;
-	    private float weight;
-
-	    public Edge(Island node, float weight)
-	    {
-	        this.node = node;
-	        this.weight = weight;
-	    }
-
-	    public Island node()
-	    {
-	        return node;
-	    }
-	    
-	    public float weight()
-	    {
-	        return weight;
-	    }
-
-	    public boolean equals(Edge<Island> other)
-	    {
-	        return this.node.equals(other.node) && this.weight == other.weight;
-	    }
-
-	    public String toString()
-	    {
-	        return "( node: " + node + ", weight: " + weight + ")";
-	    }
-	}
-	
     private Map<Island, List<Island>> map;
     
     
