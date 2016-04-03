@@ -24,7 +24,9 @@ import com.base.game.LevelGeneration.IslandGeneration;
 import com.base.game.LevelGeneration.Level;
 import com.base.game.LevelGeneration.Ship;
 
+import game.JumpPad;
 import game.Player;
+import game.Star;
 import game.TestPlanet;
 
 public class TestGame extends Game {
@@ -186,19 +188,26 @@ public class TestGame extends Game {
 //		pc.getTransform().setPos(new Vector3f(1.4f, 0, 4));
 //		world.add(pc);
 		
+		Star star = new Star();
+		world.add(star);
+		
 		TestPlanet planet1 = new TestPlanet(1000, 40);
-		planet1.getTransform().setPos(new Vector3f(40,40,40));
+		planet1.getTransform().setPos(new Vector3f(400,400,200));
 		System.out.println(planet1.getTransform().hasChanged());
 		world.add(planet1);
 		
 		Player player = new Player();
-		player.setPlanet(planet1.planet);
+		//player.setPlanet(planet1.planet);
 		// player.getTransform().setPos(new Vector3f(mainRoomTopCenterPos.x,
 		// Room.roomSize.y * 2.0f, mainRoomTopCenterPos.z));
 		//player.addComponent(new PlanetWalking(player, planet1.planet));
 		// player.getTransform().setPos(new Vector3f(mainRoomTopCenterPos.x,
 		// Room.roomSize.y * 1.5f, mainRoomTopCenterPos.z));
 		world.addToBucket(player);
+		
+		
+		JumpPad pad = new JumpPad(planet1);
+		world.add(pad);
 		
 		System.out.println("GRAPH\n");
 		IslandGeneration islandGen = new IslandGeneration(9, 3, 0.0f, 4.0f);

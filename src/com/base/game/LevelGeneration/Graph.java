@@ -2,8 +2,11 @@ package com.base.game.LevelGeneration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.base.engine.core.math.Vector3f;
 
 
 
@@ -82,6 +85,11 @@ public class Graph <T>
         map.get(to).add(new Edge<T>(from, weight));
     }
     
+    public Iterator<T> iterator()
+    {
+    	return map.keySet().iterator();
+    }
+    
     
     public boolean contains(T node)
     {
@@ -93,6 +101,40 @@ public class Graph <T>
         return map.isEmpty();
     }
     
+    public List<T> getNodes()
+    {
+    	List<T> list = new ArrayList<>();
+    	
+    	for(T node : map.keySet())
+    	{
+    		list.add(node);
+    	}
+    	
+    	return list;
+    }
+    
+    public void getEdgesFromNode(Vector3f vec)
+    {
+    	Island island = new Island(vec);
+    	
+    	Iterator it =  map.get(island).iterator();
+    	
+    	while(it.hasNext())
+    	{
+    		System.out.println("ELEM "+ it.next());
+    	}
+    }
+    
+    public void getEdgesFromNode(Island island)
+    {
+    	
+    	Iterator it =  map.get(island).iterator();
+    	
+    	while(it.hasNext())
+    	{
+    		System.out.println("ELEM "+ it.next());
+    	}
+    }
     
     public String toString()
     {
@@ -101,6 +143,13 @@ public class Graph <T>
         for(T node : map.keySet())
         {
             sb.append(node + " -> " + map.get(node) + "\n");
+            
+            Iterator it = map.get(node).iterator();
+            
+            while(it.hasNext())
+            {
+            	System.out.println("ITNODE " + it.next());
+            }
         }
 
         return sb.toString();

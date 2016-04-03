@@ -27,7 +27,7 @@ public class PlanetLook extends BoundedLook implements Controlable {
 		{
 			Matrix4f mat = new Matrix4f();
 			mat.initRotation(this.getTransform().getRot().getForward(), this.getTransform().getPos().sub(planet.object.getPosition()).normal());
-			this.getTransform().setRot(new Quaternion(mat));
+			this.getTransform().setRot(new Quaternion(mat).normalized());
 			yAxis = this.getTransform().getRot().getUp().normal();
 		}
 		else
