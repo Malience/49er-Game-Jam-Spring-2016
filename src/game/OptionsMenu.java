@@ -9,7 +9,7 @@ import com.base.engine.rendering.UI.UIRect;
 import com.base.engine.rendering.UI.UITextButtonRect;
 
 public final class OptionsMenu extends UIMenu {
-	private static String buttonTexture = "bricks2.png";
+	private static String buttonTexture = "ui.png";
 	private static String textFont = "timesNewRoman.png";
 
 	private static float buttonWidth = 75;
@@ -21,7 +21,7 @@ public final class OptionsMenu extends UIMenu {
 	public OptionsMenu() {
 		super();
 		this.setAction("Options", GLFW_KEY_ESCAPE);
-		UIRect rect = new UIRect("test.png", 100, 200);
+		UIRect rect = new UIRect("transparent.png", 100, 200);
 		closeButton = new CloseButton("Exit");
 
 		this.addChild(closeButton);

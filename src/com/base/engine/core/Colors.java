@@ -18,21 +18,19 @@ public class Colors
 	
 	public static Texture randomColor()
 	{
-		return getColor(new Random().nextInt(numColors));
+		return getColor(new Random().nextInt(6));
 	}
 	
 	public static Texture getColor(int i)
 	{
 		switch(i)
 		{
-		case 0: return black;
-		case 1: return blue;
-		case 2: return brown;
-		case 3: return cyan;
-		case 4: return green;
-		case 5: return orange;
-		case 6: return red;
-		case 7: return white;
+		case 0: return blue;
+		case 1: return brown;
+		case 2: return cyan;
+		case 3: return orange;
+		case 4: return red;
+		case 5: return white;
 		}
 		return null;
 	}

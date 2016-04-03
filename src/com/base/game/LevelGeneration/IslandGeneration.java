@@ -107,16 +107,7 @@ public class IslandGeneration
 		}
 		
 		List<Island> list = graph.getNodes();
-		
-		System.out.println("START");		
-		
-		for(int i = 0; i < list.size(); i++)
-		{
-			System.out.println("test " + list.get(i).location + " vec: " + vec);
-		}
-		
-		System.out.println("END");
-		
+			
 		return vec;
 	}
 	

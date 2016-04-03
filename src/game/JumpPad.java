@@ -2,6 +2,7 @@ package game;
 
 import com.base.engine.components.GameComponent;
 import com.base.engine.components.InteractableCollision;
+import com.base.engine.components.MeshRenderer;
 import com.base.engine.components.attachments.Interactable;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.Shapes;
@@ -9,7 +10,10 @@ import com.base.engine.core.World;
 import com.base.engine.core.math.Vector3f;
 import com.base.engine.physics.collision.Collider;
 import com.base.engine.physics.collision.Sphere;
+import com.base.engine.rendering.Material;
+import com.base.engine.rendering.Mesh;
 import com.base.engine.rendering.RenderGenerator;
+import com.base.engine.rendering.Texture;
 
 public class JumpPad extends GameObject
 {
@@ -19,10 +23,14 @@ public class JumpPad extends GameObject
 	
 	public JumpPad(TestPlanet planet)
 	{
+		Material mat = new Material();
+		mat.addTexture("diffuse", new Texture("JumpPad001.png"));
+		MeshRenderer renderer = new MeshRenderer(new Mesh("JumpPad001.obj"), mat);
+		
 		this.connect = planet;
 		interact = new Interact(new Sphere(2));
-		this.addComponent(generator.generate(Shapes.box(new Vector3f(1,1,1))));
-		this.addComponent(interact);
+		this.addComponent(renderer);
+		this.addComponent(interact);	
 	}
 	
 	private class Interact extends InteractableCollision implements Interactable
@@ -38,7 +46,6 @@ public class JumpPad extends GameObject
 			Player player = ((Player)World.world.focus);
 			player.setPlanet(connect.planet);;
 			player.body.addVelocity(connect.getPosition().sub(player.getPosition()).normal().mul(1000));
-		}
-		
+		}	
 	}
 }

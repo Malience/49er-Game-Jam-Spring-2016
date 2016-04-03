@@ -13,6 +13,7 @@ import com.base.engine.core.Colors;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.World;
+import com.base.engine.core.math.Matrix4f;
 import com.base.engine.core.math.Quaternion;
 import com.base.engine.core.math.Vector2f;
 import com.base.engine.core.math.Vector3f;
@@ -197,10 +198,10 @@ public class TestGame extends Game {
 		Star star = new Star();
 		world.add(star);
 		
-		TestPlanet planet1 = new TestPlanet(1000, 40);
-		planet1.getTransform().setPos(new Vector3f(400,400,200));
-		System.out.println(planet1.getTransform().hasChanged());
-		world.add(planet1);
+		//TestPlanet planet1 = new TestPlanet(1000, 40);
+		//planet1.getTransform().setPos(new Vector3f(400,400,200));
+		//System.out.println(planet1.getTransform().hasChanged());
+		//world.add(planet1);
 		
 		Player player = new Player();
 		//player.setPlanet(planet1.planet);
@@ -212,13 +213,11 @@ public class TestGame extends Game {
 		world.addToBucket(player);
 		
 		
-		JumpPad pad = new JumpPad(planet1);
-		world.add(pad);
+		//JumpPad pad = new JumpPad(planet1);
+		//world.add(pad);
 		
-		System.out.println("GRAPH\n");
 		IslandGeneration islandGen = new IslandGeneration(9, 3, 0.0f, 4.0f);
 		Graph<Island> g = islandGen.getGraph();
-		System.out.println(g.toString());
 		
 		List<Vector3f> islands = islandGen.getVectors();
 		List<TestPlanet> planets = new ArrayList<>();
@@ -227,6 +226,7 @@ public class TestGame extends Game {
 		{
 			TestPlanet planet = new TestPlanet(1000, 30);
 			planet.getTransform().setPos(vec);	
+			planet.setTexture(new Texture("orange.png"));
 			
 //			if(vec.equals(new Vector3f(0, 0, 0)))
 //			{
@@ -260,6 +260,7 @@ public class TestGame extends Game {
     					
     					JumpPad paddy = new JumpPad(planet);
     					paddy.getTransform().setPos(jPos);
+    					paddy.getTransform().setRot(new Quaternion(new Matrix4f().initRotation(new Vector3f(1,1,((-jPos.x - jPos.y)/jPos.z)), jPos)));
     					world.add(paddy);
     				}
     			}
