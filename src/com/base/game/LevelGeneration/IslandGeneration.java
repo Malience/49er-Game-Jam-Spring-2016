@@ -1,68 +1,20 @@
 package com.base.game.LevelGeneration;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import com.base.engine.core.math.Vector3f;
 
 public class IslandGeneration
-{
-	private class Island
-	{
-		public int depth;
-		public Island parent;
-		public int quadrant;
-		public Vector3f location;
-		
-		public Island(Vector3f vec)
-		{
-			this.location = vec;
-			this.depth = 0;
-		}
-		
-		public Island(Island parent, Vector3f vec)
-		{
-			this.parent = parent;
-			this.location = parent == null ? vec : parent.location.add(vec);
-			this.depth = parent.depth + 1;
-			
-			if(parent != null)
-			{
-				float x = parent.location.x;
-				float y = parent.location.y;
-				
-				if(x > 0.0f && y > 0.0f)
-				{
-					parent.quadrant = 1;
-				}
-				else if(x < 0.0f && y > 0.0f)
-				{
-					parent.quadrant = 2;
-				}
-				else if(x < 0.0f && y < 0.0f)
-				{
-					parent.quadrant = 3;
-				}
-				else
-				{
-					parent.quadrant = 4;
-				}
-			}
-			
-			
-		}
-		
-		public String toString()
-		{
-			return "(" + location.x + ", " + location.y + ", " + location.z + ")";
-		}
-	}
-	
+{	
 	private Random rand;
 	private Graph<Island> graph;
-	private final float discountFactor = .5f;
+	private final float discountFactor = 0.6f;
 	
 	
-	public IslandGeneration(int size, int maxDepth, float minBridgeLength, float maxBridgeLength)
+	public IslandGeneration(int size, float radius, float minBridgeLength, float maxBridgeLength)
 	{
 		long seed = 1337;
 		//long seed = new Random().nextLong();
@@ -92,7 +44,7 @@ public class IslandGeneration
 				{	
 					int quadrant = getNewQuadrant(prev);
 					
-					island = new Island(prev, getNewVector(quadrant));
+					island = new Island(prev, getNewVector(quadrant, radius));
 					
 					graph.addEdge(island.parent, island, 0.0f);
 				}
@@ -100,7 +52,7 @@ public class IslandGeneration
 				{
 					int quadrant = getNewQuadrant(main);
 					
-					island = new Island(main, getNewVector(quadrant));
+					island = new Island(main, getNewVector(quadrant, radius));
 										
 					graph.addEdge(island.parent, island, 0.0f);
 					
@@ -115,14 +67,13 @@ public class IslandGeneration
 	}
 	
 	public boolean getChance(Island parent)
-	{
-		float prob = (float)Math.pow(discountFactor, parent.depth);		
-		return parent.depth == 0 ? true : prob >= rand.nextFloat();
+	{	
+		return parent.depth == 0 ? true : (float)Math.pow(discountFactor, parent.depth) >= rand.nextFloat();
 	}
 	
 	public int getNewQuadrant(Island parent)
 	{
-		int quadrant = rand.nextInt(3) + 1;
+		int quadrant = rand.nextInt(4) + 1;
 		
 		if(quadrant > 2)
 		{			
@@ -134,28 +85,59 @@ public class IslandGeneration
 		}
 	}
 	
-	public Vector3f getNewVector(int quadrant)
+	public Vector3f getNewVector(int quadrant, float radius)
 	{
-		final float min = 50.0f, max = 100.0f;
+		final float min = radius * 5.0f, max = radius * 13.5f;
+		
+		Vector3f vec;
 		
 		if(quadrant == 1)
 		{
-			return new Vector3f(randomFloat(min, max), randomFloat(min, max), 0);
+			vec = new Vector3f(randomFloat(min, max), randomFloat(min, max), randomFloat(-max, max));
 		}
 		else if(quadrant == 2)
 		{
-			return new Vector3f(randomFloat(-min, -max), randomFloat(min, max), 0);
+			vec = new Vector3f(randomFloat(-min, -max), randomFloat(min, max), randomFloat(-max, max));
 		}
 		else if(quadrant == 3)
 		{
-			return new Vector3f(randomFloat(-min, -max), randomFloat(-min, -max), 0);
+			vec = new Vector3f(randomFloat(-min, -max), randomFloat(-min, -max), randomFloat(-max, max));
 		}
 		else
 		{
-			return new Vector3f(randomFloat(min, max), randomFloat(-min, -max), 0);
+			vec = new Vector3f(randomFloat(min, max), randomFloat(-min, -max), randomFloat(-max, max));
 		}
+		
+		List<Island> list = graph.getNodes();
+		
+		System.out.println("START");		
+		
+		for(int i = 0; i < list.size(); i++)
+		{
+			System.out.println("test " + list.get(i).location + " vec: " + vec);
+		}
+		
+		System.out.println("END");
+		
+		return vec;
 	}
 	
+	public List<Vector3f> getVectors()
+	{
+		List<Vector3f> list = new ArrayList<>();
+		
+		for(Island is : graph.getNodes())
+		{
+			list.add(is.location);
+		}
+		
+		return list;		
+	}	
+	
+	public Vector3f getNormalVector(Island first, Island second)
+	{
+		return (first.location.sub(second.location)).normal();
+	}
 	
 	public float randomFloat(float min, float max)
 	{
