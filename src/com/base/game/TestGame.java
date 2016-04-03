@@ -9,6 +9,7 @@ import com.base.engine.components.movenlook.FreeLook;
 import com.base.engine.components.movenlook.FreeMove;
 import com.base.engine.components.movenlook.LookAtComponent;
 import com.base.engine.components.movenlook.PlanetWalking;
+import com.base.engine.core.Colors;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.World;
@@ -197,10 +198,10 @@ public class TestGame extends Game {
 		Star star = new Star();
 		world.add(star);
 		
-		TestPlanet planet1 = new TestPlanet(1000, 40);
-		planet1.getTransform().setPos(new Vector3f(400,400,200));
-		System.out.println(planet1.getTransform().hasChanged());
-		world.add(planet1);
+		//TestPlanet planet1 = new TestPlanet(1000, 40);
+		//planet1.getTransform().setPos(new Vector3f(400,400,200));
+		//System.out.println(planet1.getTransform().hasChanged());
+		//world.add(planet1);
 		
 		Player player = new Player();
 		//player.setPlanet(planet1.planet);
@@ -227,10 +228,10 @@ public class TestGame extends Game {
 			planet.getTransform().setPos(vec);	
 			planet.setTexture(new Texture("orange.png"));
 			
-			if(vec.equals(new Vector3f(0, 0, 0)))
-			{
-				player.setPlanet(planet.planet);
-			}
+//			if(vec.equals(new Vector3f(0, 0, 0)))
+//			{
+//				player.setPlanet(planet.planet);
+//			}
 			
 			world.add(planet);
 			
@@ -264,6 +265,12 @@ public class TestGame extends Game {
     				}
     			}
     		}
+    	}
+    	
+    	
+    	for(TestPlanet planet : planets)
+    	{
+    		planet.setTexture(Colors.randomColor());
     	}
 	}
 }

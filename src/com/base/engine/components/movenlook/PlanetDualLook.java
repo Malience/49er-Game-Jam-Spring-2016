@@ -9,13 +9,19 @@ import com.base.engine.core.math.Vector2f;
 import com.base.engine.core.math.Vector3f;
 import com.base.engine.physics.RigidBody.ForceGenerators.ConnectedPlanet;
 
-public class PlanetLook extends BoundedLook implements Controlable {
+public class PlanetDualLook extends BoundedLook implements Controlable {
 	private static Vector3f yAxis = new Vector3f(0, 1, 0);
 	ConnectedPlanet planet;
+	GameObject object;
+	GameObject yobject;
+	GameObject xobject;
 
-	public PlanetLook(float sensitivity, ConnectedPlanet planet) {
+	public PlanetDualLook(float sensitivity, GameObject object, GameObject yobject, GameObject xobject, ConnectedPlanet planet) {
 		super(sensitivity);
 		this.planet = planet;
+		this.object = object;
+		this.yobject = yobject;
+		this.xobject = xobject;
 	}
 
 	public static float currentXRot = 0;
@@ -26,16 +32,14 @@ public class PlanetLook extends BoundedLook implements Controlable {
 		if(planet != null)
 		{
 			Matrix4f mat = new Matrix4f();
-			mat.initRotation(this.getTransform().getPos().sub(planet.object.getPosition()).cross(this.getTransform().getRot().getForward()).normal(), this.getTransform().getPos().sub(planet.object.getPosition()).normal());
-			this.getTransform().setRot(new Quaternion(mat).normalized());
-			yAxis = this.getTransform().getRot().getUp().normal();
+			mat.initRotation(yobject.getTransform().getPos().sub(planet.object.getPosition()).normal().cross(yobject.getTransform().getRot().getRight()), yobject.getTransform().getPos().sub(planet.object.getPosition()).normal());
+			object.getTransform().setRot(new Quaternion(mat));
 		}
 		else
 		{
 			Matrix4f mat = new Matrix4f();
-			mat.initRotation(this.getTransform().getRot().getForward(), new Vector3f(0,1,0));
-			this.getTransform().setRot(new Quaternion(mat));
-			yAxis = new Vector3f(0,1,0);
+			mat.initRotation(yobject.getTransform().getRot().getForward(), new Vector3f(0,1,0));
+			object.getTransform().setRot(new Quaternion(mat).normalized());
 		}
 		
 		if (Input.isMouseLocked()) {
@@ -46,22 +50,23 @@ public class PlanetLook extends BoundedLook implements Controlable {
 			if (rotY || rotX)
 				Input.setMousePosition(Input.getCenter());
 
-			if (rotY)
-				getTransform().rotate(yAxis, (float) Math.toRadians(deltaPos.getX() * sensitivity));
-			if (rotX) {
-				currentXRot += (float) -Math.toRadians(deltaPos.getY() * sensitivity);
-				if (currentXRot > maxAngle) {
-					currentXRot = maxAngle;
-					return 0;
-				}
-				if (currentXRot < -maxAngle) {
-					currentXRot = -maxAngle;
-					return 0;
-				}
-				
+			if(rotY)
+				yobject.getTransform().rotate(yAxis, (float) Math.toRadians(deltaPos.getX() * sensitivity));
+			if(rotX)
+			{
+//				currentXRot +=(float) -Math.toRadians(deltaPos.getY() * sensitivity);
+//				if(currentXRot > maxAngle)
+//				{
+//					currentXRot = maxAngle;
+//					return 0;
+//				}
+//				if(currentXRot < -maxAngle)
+//				{
+//					currentXRot = -maxAngle;
+//					return 0;
+//				}
+				xobject.getTransform().rotate(xobject.getTransform().getRot().getRight(), (float) -Math.toRadians(deltaPos.getY() * sensitivity));
 			}
-			getTransform().rotate(getTransform().getRot().getRight(),
-					currentXRot);
 		}
 
 		return 1;

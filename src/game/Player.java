@@ -13,7 +13,9 @@ import com.base.engine.components.movenlook.DualBoundedLook;
 import com.base.engine.components.movenlook.PlanetLook;
 import com.base.engine.components.movenlook.JumpMove;
 import com.base.engine.components.movenlook.LockedYMove;
+import com.base.engine.components.movenlook.LockedYMoveBypass;
 import com.base.engine.components.movenlook.MoveComponent;
+import com.base.engine.components.movenlook.PlanetDualLook;
 import com.base.engine.components.movenlook.PlanetJump;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.World;
@@ -44,7 +46,7 @@ public class Player extends GameObject {
 	public UIInventory inventory;
 	Vitals vitals;
 	OxygenTank tank = null;
-	PlanetLook look;
+	PlanetDualLook look;
 	PlanetJump jump;
 
 	public Player() {
@@ -55,7 +57,6 @@ public class Player extends GameObject {
 		// collider1 = new Box(new Vector3f(1,2,1));
 		// collider = new Capsule(1,2);
 		// FreeMove move = new FreeMove(25);
-		LockedYMove move = new LockedYMove(20);
 		// FreeLook look = new FreeLook(0.5f);
 		// StandardLook look = new StandardLook(0.5f);
 		// InteractionTest test = new InteractionTest();
@@ -83,7 +84,6 @@ public class Player extends GameObject {
 		this.addComponent(body);
 		this.addComponent(collider);
 		// this.addComponent(collider2);
-		this.addComponent(move);
 		// this.addComponent(look);
 		// this.addComponent(test);
 		this.addComponent(jump);
@@ -91,12 +91,26 @@ public class Player extends GameObject {
 
 		//PhysicsEngine.addForce(body, "Gravity");
 		//PhysicsEngine.addForce(body, "planet1");
+		
+		
 
 
-		look = new PlanetLook(0.5f, null);
-
-		this.addComponent(look);
-
+		GameObject cameraObject1 = new GameObject();
+		
+		
+		GameObject cameraObject2 = new GameObject();
+		cameraObject2.addComponent(camera);
+		
+		cameraObject1.addChild(cameraObject2);
+		
+		look = new PlanetDualLook(0.5f, this, cameraObject1, cameraObject2, null);
+		
+		cameraObject2.addComponent(look);
+		
+		this.addChild(cameraObject1);
+		
+		LockedYMoveBypass move = new LockedYMoveBypass(cameraObject1, 20);
+		this.addComponent(move);
 		
 		inventory.setAction("Inventory", GLFW_KEY_I);
 		RenderingEngine.ui.addChild(inventory);
