@@ -12,6 +12,7 @@ import com.base.engine.components.movenlook.PlanetWalking;
 import com.base.engine.core.Colors;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
+import com.base.engine.core.Shapes;
 import com.base.engine.core.World;
 import com.base.engine.core.math.Matrix4f;
 import com.base.engine.core.math.Quaternion;
@@ -195,7 +196,7 @@ public class TestGame extends Game {
 //		pc.getTransform().setPos(new Vector3f(1.4f, 0, 4));
 //		world.add(pc);
 		
-		Star star = new Star();
+		Star star = new Star(1.4f, .005f);
 		world.add(star);
 		
 		//TestPlanet planet1 = new TestPlanet(1000, 40);
@@ -222,11 +223,17 @@ public class TestGame extends Game {
 		List<Vector3f> islands = islandGen.getVectors();
 		List<TestPlanet> planets = new ArrayList<>();
 		
+		Material mat = new Material();
+		mat.addTexture("diffuse", new Texture("red.png"));
+		MeshRenderer renderer = new MeshRenderer(Shapes.inverseBox(new Vector3f(10,10,10)), mat);
+		world.add(new GameObject().addComponent(renderer));
+		
+		
 		for(Vector3f vec : islands)
 		{
 			TestPlanet planet = new TestPlanet(1000, 30);
 			planet.getTransform().setPos(vec);	
-			planet.setTexture(new Texture("orange.png"));
+			planet.setTexture(Colors.randomColor());
 			
 //			if(vec.equals(new Vector3f(0, 0, 0)))
 //			{
@@ -249,9 +256,9 @@ public class TestGame extends Game {
     		{	
     			for(TestPlanet planet : planets)
     			{
-    				if(planet.getPosition().equals(is.location))
+    				if(planet.getPosition().equals(hold.location))
     				{
-    					Vector3f jPos = hold.location.sub(is.location).normal().mul(30).add(is.location);
+    					Vector3f jPos = hold.location.sub(planet.getPosition()).normal().mul(30).add(is.location);
     					
     					if(is.location.equals(new Vector3f(0,0,0)))
     					{
@@ -265,12 +272,6 @@ public class TestGame extends Game {
     				}
     			}
     		}
-    	}
-    	
-    	
-    	for(TestPlanet planet : planets)
-    	{
-    		planet.setTexture(Colors.randomColor());
     	}
 	}
 }

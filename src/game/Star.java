@@ -9,10 +9,12 @@ import com.base.engine.core.math.Vector3f;
 public class Star extends GameObject
 {
 	DirectionalLight light;
+	float delta;
 	
-	public Star()
+	public Star(float color, float delta)
 	{
-		light = new DirectionalLight(new Vector3f(1,1,1), .8f);
+		this.delta = delta;
+		light = new DirectionalLight(new Vector3f(color,color,color), .8f);
 		this.addComponent(light);
 		this.addComponent(new Update(this));
 	}
@@ -31,7 +33,7 @@ public class Star extends GameObject
 		@Override
 		public int update(float delta)
 		{
-			star.getTransform().rotate(new Vector3f(1,0,0), delta * amount);
+			star.getTransform().rotate(new Vector3f(1,0,0), star.delta * amount);
 			return 1;
 		}
 	}
