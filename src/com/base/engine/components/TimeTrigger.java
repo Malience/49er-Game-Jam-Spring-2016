@@ -18,6 +18,8 @@ public abstract class TimeTrigger extends GameComponent implements Updatable {
 		}
 		return 1;
 	}
-
+	
+	public void reset(float time){this.time = time;}
+	
 	protected abstract void trigger();
 }

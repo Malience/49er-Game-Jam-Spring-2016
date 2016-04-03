@@ -155,12 +155,24 @@ public class PhysicsEngine extends Thread {
 		while (test != null) {
 			test = forces.get(forceName + ++i);
 		}
-		forces.put(forceName + i, force);
-		return forceName + i;
+		if(i != -1)
+		{
+			forces.put(forceName + i, force);
+			return forceName + i;
+		}
+		else{
+			forces.put(forceName, force);
+			return forceName;
+		}
 	}
 
 	public static void addForce(ForceGenerator force, String forceName) {
 		forces.put(forceName, force);
+	}
+	
+	public static void attachForce(RigidBody body, ForceGenerator force) {
+		if (force != null)
+			registry.add(body, force);
 	}
 
 	public static void removeForce(RigidBody body, String forceName) {

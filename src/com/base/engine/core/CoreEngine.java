@@ -35,7 +35,7 @@ public class CoreEngine {
 	private PhysicsEngine physicsEngine;
 	private AnimationEngine animationEngine;
 	private AtmosphericsEngine atmosphericsEngine;
-	private AudioEngine audioEngine;
+//	private AudioEngine audioEngine;
 	private int width;
 	private int height;
 	private String name;
@@ -94,7 +94,7 @@ public class CoreEngine {
 		physicsEngine = new PhysicsEngine();
 		animationEngine = new AnimationEngine();
 		atmosphericsEngine = new AtmosphericsEngine();
-		audioEngine = new AudioEngine();
+//		audioEngine = new AudioEngine();
 		world.init();
 
 		Input.lockMouse();
@@ -125,7 +125,7 @@ public class CoreEngine {
 			physicsEngine.gather();
 			animationEngine.gather();
 			atmosphericsEngine.gather();
-			audioEngine.gather();
+//			audioEngine.gather();
 			world.gather();
 
 			while (unprocessedTime > frameTime) {
@@ -167,7 +167,7 @@ public class CoreEngine {
 				// Rendering
 				renderingEngine.render();
 				// Audio
-				audioEngine.play();
+//				audioEngine.play();
 				Window.render(MainWindow);
 				
 				frames++;
@@ -187,7 +187,7 @@ public class CoreEngine {
 
 	private void cleanUp() {
 		dispose(MainWindow);
-		audioEngine.cleanUp();
+//		audioEngine.cleanUp();
 	}
 
 	public RenderingEngine getRenderingEngine() {
