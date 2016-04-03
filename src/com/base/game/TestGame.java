@@ -197,10 +197,10 @@ public class TestGame extends Game {
 		Star star = new Star();
 		world.add(star);
 		
-		TestPlanet planet1 = new TestPlanet(1000, 40);
-		planet1.getTransform().setPos(new Vector3f(400,400,200));
-		System.out.println(planet1.getTransform().hasChanged());
-		world.add(planet1);
+		//TestPlanet planet1 = new TestPlanet(1000, 40);
+		//planet1.getTransform().setPos(new Vector3f(400,400,200));
+		//System.out.println(planet1.getTransform().hasChanged());
+		//world.add(planet1);
 		
 		Player player = new Player();
 		//player.setPlanet(planet1.planet);
@@ -212,8 +212,8 @@ public class TestGame extends Game {
 		world.addToBucket(player);
 		
 		
-		JumpPad pad = new JumpPad(planet1);
-		world.add(pad);
+		//JumpPad pad = new JumpPad(planet1);
+		//world.add(pad);
 		
 		System.out.println("GRAPH\n");
 		IslandGeneration islandGen = new IslandGeneration(9, 3, 0.0f, 4.0f);

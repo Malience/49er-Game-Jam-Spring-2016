@@ -37,9 +37,9 @@ public class World {
 
 	public final static float tileHalfSize = 2.5f;
 
-	public final static float[] clearColor = new float[] { 0f, 1f, 1f, 0f }; // TEST
+	//public final static float[] clearColor = new float[] { 0f, 1f, 1f, 0f }; // TEST
 																				// MODE
-	// public final static float[] clearColor = new float[]{0f, 0f, 0f, 0f};
+	public final static float[] clearColor = new float[]{0f, 0f, 0f, 0f};
 	// //RELEASE MODE
 
 	/*-----------------*/
