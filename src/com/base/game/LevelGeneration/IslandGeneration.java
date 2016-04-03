@@ -62,8 +62,6 @@ public class IslandGeneration
 			prev = island;
 			
 		}
-		
-		
 	}
 	
 	public boolean getChance(Island parent)
@@ -87,7 +85,7 @@ public class IslandGeneration
 	
 	public Vector3f getNewVector(int quadrant, float radius)
 	{
-		final float min = radius * 5.0f, max = radius * 13.5f;
+		final float min = 150.0f, max = 350.00f;
 		
 		Vector3f vec;
 		

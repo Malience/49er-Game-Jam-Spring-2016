@@ -1,5 +1,9 @@
 package com.base.game;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import com.base.engine.components.MeshRenderer;
 import com.base.engine.components.movenlook.FreeLook;
 import com.base.engine.components.movenlook.FreeMove;
@@ -20,6 +24,7 @@ import com.base.engine.rendering.Mesh;
 import com.base.engine.rendering.Texture;
 import com.base.engine.rendering.Vertex;
 import com.base.game.LevelGeneration.Graph;
+import com.base.game.LevelGeneration.Island;
 import com.base.game.LevelGeneration.IslandGeneration;
 import com.base.game.LevelGeneration.Level;
 import com.base.game.LevelGeneration.Ship;
@@ -211,7 +216,46 @@ public class TestGame extends Game {
 		
 		System.out.println("GRAPH\n");
 		IslandGeneration islandGen = new IslandGeneration(9, 3, 0.0f, 4.0f);
-		Graph g = islandGen.getGraph();
+		Graph<Island> g = islandGen.getGraph();
 		System.out.println(g.toString());
+		
+		List<Vector3f> islands = islandGen.getVectors();
+		List<TestPlanet> planets = new ArrayList<>();
+		
+		player.getTransform().setPos(new Vector3f(100,100,100));
+		
+		for(Vector3f vec : islands)
+		{
+			
+			TestPlanet planet = new TestPlanet(50, 30);
+			planet.getTransform().setPos(vec);
+			
+			
+			if(vec.equals(new Vector3f(0, 0, 0)))
+			{
+				player.setPlanet(planet.planet);
+			}
+			
+			world.add(planet);
+			
+			planets.add(planet);
+		}
+    	
+		Iterator it = g.getNodes().iterator();
+		
+    	while(it.hasNext())
+    	{
+    		Island hold =(Island) it.next();
+    		
+    		List<Island> list = g.getEdges(hold);
+    		
+    		for(Island is : list)
+    		{
+    			System.out.print("\n**" + hold + " -> " + is.location);
+    			System.out.print("\nNormal: " + hold.location.sub(is.location).normal());
+    		}
+    	}
+		
+		world.addToBucket(player);
 	}
 }

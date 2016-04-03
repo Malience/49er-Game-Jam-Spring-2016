@@ -10,20 +10,20 @@ import com.base.engine.core.math.Vector3f;
 
 
 
-public class Graph <T>
+public class Graph <Island>
 {
-	private class Edge <T>
+	private class Edge <Island>
 	{
-        private T node;
+        private Island node;
 	    private float weight;
 
-	    public Edge(T node, float weight)
+	    public Edge(Island node, float weight)
 	    {
 	        this.node = node;
 	        this.weight = weight;
 	    }
 
-	    public T node()
+	    public Island node()
 	    {
 	        return node;
 	    }
@@ -33,18 +33,7 @@ public class Graph <T>
 	        return weight;
 	    }
 
-	    public boolean equals(Object obj)
-	    {
-	        if(obj == this) { return true; }
-
-	        if(!(obj instanceof Edge)) { return false; }
-
-	        Edge<T> other = (Edge<T>)obj;
-
-	        return this.equals(other);
-	    }
-
-	    public boolean equals(Edge<T> other)
+	    public boolean equals(Edge<Island> other)
 	    {
 	        return this.node.equals(other.node) && this.weight == other.weight;
 	    }
@@ -55,7 +44,7 @@ public class Graph <T>
 	    }
 	}
 	
-    private Map<T, List<Edge<T>>> map;
+    private Map<Island, List<Island>> map;
     
     
     public Graph()
@@ -63,35 +52,35 @@ public class Graph <T>
         this.map = new HashMap<>();
     }
 
-    public Graph(Graph<T> g)
+    public Graph(Graph<Island> g)
     {
         this.map = g.map;
     }
     
-    public boolean add(T node)
+    public boolean add(Island node)
     {
     	if(contains(node)) { return false; }
     	
-    	map.put(node, new ArrayList<Edge<T>>());
+    	map.put(node, new ArrayList<Island>());
     	return true;
     }
     
-    public void addEdge(T from, T to, float weight)
+    public void addEdge(Island from, Island to, float weight)
     {
         this.add(from);
         this.add(to);
         
-        map.get(from).add(new Edge<T>(to, weight));
-        map.get(to).add(new Edge<T>(from, weight));
+        map.get(from).add(to);
+        map.get(to).add(from);
     }
     
-    public Iterator<T> iterator()
+    public Iterator<Island> iterator()
     {
     	return map.keySet().iterator();
     }
     
     
-    public boolean contains(T node)
+    public boolean contains(Island node)
     {
         return map.containsKey(node);
     }
@@ -101,11 +90,11 @@ public class Graph <T>
         return map.isEmpty();
     }
     
-    public List<T> getNodes()
+    public List<Island> getNodes()
     {
-    	List<T> list = new ArrayList<>();
+    	List<Island> list = new ArrayList<>();
     	
-    	for(T node : map.keySet())
+    	for(Island node : map.keySet())
     	{
     		list.add(node);
     	}
@@ -113,34 +102,16 @@ public class Graph <T>
     	return list;
     }
     
-    public void getEdgesFromNode(Vector3f vec)
+    public List<Island> getEdges(Island T)
     {
-    	Island island = new Island(vec);
-    	
-    	Iterator it =  map.get(island).iterator();
-    	
-    	while(it.hasNext())
-    	{
-    		System.out.println("ELEM "+ it.next());
-    	}
-    }
-    
-    public void getEdgesFromNode(Island island)
-    {
-    	
-    	Iterator it =  map.get(island).iterator();
-    	
-    	while(it.hasNext())
-    	{
-    		System.out.println("ELEM "+ it.next());
-    	}
+    	return map.get(T);
     }
     
     public String toString()
     {
         StringBuffer sb = new StringBuffer(); //because strings in java are immutable
 
-        for(T node : map.keySet())
+        for(Island node : map.keySet())
         {
             sb.append(node + " -> " + map.get(node) + "\n");
             
