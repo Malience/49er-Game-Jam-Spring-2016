@@ -9,6 +9,7 @@ import com.base.engine.components.movenlook.FreeLook;
 import com.base.engine.components.movenlook.FreeMove;
 import com.base.engine.components.movenlook.LookAtComponent;
 import com.base.engine.components.movenlook.PlanetWalking;
+import com.base.engine.core.Colors;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.World;
@@ -227,10 +228,10 @@ public class TestGame extends Game {
 			TestPlanet planet = new TestPlanet(1000, 30);
 			planet.getTransform().setPos(vec);	
 			
-			if(vec.equals(new Vector3f(0, 0, 0)))
-			{
-				player.setPlanet(planet.planet);
-			}
+//			if(vec.equals(new Vector3f(0, 0, 0)))
+//			{
+//				player.setPlanet(planet.planet);
+//			}
 			
 			world.add(planet);
 			
@@ -263,6 +264,12 @@ public class TestGame extends Game {
     				}
     			}
     		}
+    	}
+    	
+    	
+    	for(TestPlanet planet : planets)
+    	{
+    		planet.setTexture(Colors.randomColor());
     	}
 	}
 }
