@@ -52,7 +52,7 @@ public class Player extends GameObject {
 	public Player() {
 		camera = new Camera((float) Math.toRadians(70.0f), (float) Window.getWidth() / (float) Window.getHeight(),
 				0.01f, 1000.0f);
-		body = new RigidBody(20, .2f, 0);
+		body = new RigidBody(20, .2f, .2f);
 		collider = new Sphere(4);
 		// collider1 = new Box(new Vector3f(1,2,1));
 		// collider = new Capsule(1,2);
@@ -265,7 +265,7 @@ public class Player extends GameObject {
 		if(this.look.getPlanet() != null) PhysicsEngine.removeForce(body, this.look.getPlanet());
 		this.look.setPlanet(planet);
 		this.jump.setPlanet(planet);
-		PhysicsEngine.addForce(body, planet);
+		PhysicsEngine.attachForce(body, planet);
 	}
 	
 	public boolean checkPulse() {

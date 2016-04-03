@@ -31,8 +31,12 @@ public class PlanetDualLook extends BoundedLook implements Controlable {
 	public int input(float delta) {
 		if(planet != null)
 		{
+			Vector3f a = object.getTransform().getTransformedPos().sub(planet.object.getPosition()).normal();
+			Vector3f b = object.getTransform().getRot().getForward();
+			Vector3f c = a.cross(b);
+			Vector3f d = a.cross(c).mul(-1);
 			Matrix4f mat = new Matrix4f();
-			mat.initRotation(yobject.getTransform().getPos().sub(planet.object.getPosition()).normal().cross(yobject.getTransform().getRot().getRight()), yobject.getTransform().getPos().sub(planet.object.getPosition()).normal());
+			mat.initRotation(d, a);
 			object.getTransform().setRot(new Quaternion(mat));
 		}
 		else
