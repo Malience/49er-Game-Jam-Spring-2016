@@ -143,6 +143,7 @@ public class CoreEngine {
 				Input.drag((float) frameTime);
 				Interaction.gather();
 				Interaction.interact();
+				world.update((float) frameTime);
 
 				if (frameCounter >= 1.0) {
 					System.out.println(frames);
@@ -169,7 +170,6 @@ public class CoreEngine {
 				audioEngine.play();
 				Window.render(MainWindow);
 				
-				world.update((float) frameTime);
 				frames++;
 				// System.out.println(Input.getMousePosition());
 			} else {

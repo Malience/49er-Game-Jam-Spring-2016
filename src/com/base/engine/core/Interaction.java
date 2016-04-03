@@ -62,7 +62,7 @@ public class Interaction {
 				case "Sphere":
 					CoreEngine.debugBreak();
 					Sphere sphere = (Sphere) collider;
-					Vector3f p = playerpos.sub(sphere.getTransform().getPos());
+					Vector3f p = playerpos.sub(interact.getTransform().getPos());
 					if (IntersectionTests.rayAndSphere(p, direction, sphere.radius, collisionBucket)) {
 						if (collisionBucket.x < length && collisionBucket.x < min) {
 							min = collisionBucket.x;
